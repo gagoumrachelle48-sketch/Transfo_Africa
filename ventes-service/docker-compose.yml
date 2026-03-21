@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+
   ventes-db:
     image: mariadb:10.11
     container_name: ventes-db
@@ -15,10 +16,9 @@ services:
       - ventes-db-data:/var/lib/mysql
     networks:
       - ventes-network
-      - transfafrica-network
 
   ventes-backend:
-    build: ./backend
+    image: ventes-service_ventes-backend:latest
     container_name: ventes-backend
     restart: always
     ports:
@@ -31,14 +31,15 @@ services:
       - ventes-db
     networks:
       - ventes-network
-      - transfafrica-network
 
   ventes-frontend:
-    image: nginx:alpine
+    build: ./frontend
     container_name: ventes-frontend
     restart: always
     ports:
       - "4202:80"
+    depends_on:
+      - ventes-backend
     networks:
       - ventes-network
 
@@ -48,6 +49,3 @@ volumes:
 networks:
   ventes-network:
     driver: bridge
-  transfafrica-network:
-    external: true
-    name: contacts-service_contacts-network

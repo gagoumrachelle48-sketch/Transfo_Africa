@@ -1,0 +1,32 @@
+<div class="devis-list">
+  <div class="header">
+    <h2>Devis</h2>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr><th>Numéro</th><th>Client</th><th>Date</th><th>Validité</th><th>Montant</th><th>Statut</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let d of devisList">
+          <td class="numero">{{ d.numero }}</td>
+          <td>{{ d.clientNom }}</td>
+          <td>{{ d.dateDevis | date:'dd/MM/yyyy' }}</td>
+          <td>{{ d.dateValidite | date:'dd/MM/yyyy' }}</td>
+          <td class="montant">{{ d.montantTotal | number:'1.2-2' }} €</td>
+          <td>
+            <select [value]="d.statut" (change)="updateStatut(d.id!, $any($event.target).value)" class="statut-select">
+              <option value="BROUILLON">Brouillon</option>
+              <option value="ENVOYE">Envoyé</option>
+              <option value="ACCEPTE">Accepté</option>
+              <option value="REFUSE">Refusé</option>
+              <option value="EXPIRE">Expiré</option>
+            </select>
+          </td>
+          <td><button class="btn-delete" (click)="delete(d.id!)">Supprimer</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="empty" *ngIf="devisList.length === 0"><p>Aucun devis trouvé.</p></div>
+  </div>
+</div>

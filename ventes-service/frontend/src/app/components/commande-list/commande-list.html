@@ -1,0 +1,44 @@
+<div class="commande-list">
+  <div class="header">
+    <h2>Commandes</h2>
+    <a routerLink="/commandes/new" class="btn-new">+ Nouvelle commande</a>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Numéro</th>
+          <th>Client</th>
+          <th>Date</th>
+          <th>Montant</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cmd of commandes">
+          <td class="numero">{{ cmd.numero }}</td>
+          <td>{{ cmd.clientNom }}</td>
+          <td>{{ cmd.dateCommande | date:'dd/MM/yyyy' }}</td>
+          <td class="montant">{{ cmd.montantTotal | number:'1.2-2' }} €</td>
+          <td>
+            <select [value]="cmd.statut" (change)="updateStatut(cmd.id!, $any($event.target).value)" class="statut-select" [class]="statutClass(cmd.statut)">
+              <option value="BROUILLON">Brouillon</option>
+              <option value="CONFIRME">Confirmé</option>
+              <option value="EN_COURS">En cours</option>
+              <option value="LIVRE">Livré</option>
+              <option value="ANNULE">Annulé</option>
+            </select>
+          </td>
+          <td class="actions">
+            <button class="btn-delete" (click)="delete(cmd.id!)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="empty" *ngIf="commandes.length === 0">
+      <p>Aucune commande. <a routerLink="/commandes/new">Créer la première</a></p>
+    </div>
+  </div>
+</div>
