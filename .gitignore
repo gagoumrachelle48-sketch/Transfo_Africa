@@ -1,0 +1,7 @@
+**/node_modules/
+**/.angular/
+**/target/
+**/*.class
+**/*.jar
+**/.env
+**/docker-volumes/
