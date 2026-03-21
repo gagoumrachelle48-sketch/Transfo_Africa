@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+
+  contacts-db:
+    image: mariadb:10.11
+    container_name: contacts-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: contacts_db
+      MYSQL_USER: contacts_user
+      MYSQL_PASSWORD: contacts_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - contacts-db-data:/var/lib/mysql
+    networks:
+      - contacts-network
+
+  contacts-backend:
+    build: ./backend
+    container_name: contacts-backend
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://contacts-db:3306/contacts_db
+      SPRING_DATASOURCE_USERNAME: contacts_user
+      SPRING_DATASOURCE_PASSWORD: contacts_pass
+    depends_on:
+      - contacts-db
+    networks:
+      - contacts-network
+
+volumes:
+  contacts-db-data:
+
+networks:
+  contacts-network:
+    driver: bridge

@@ -1,0 +1,39 @@
+name: CI/CD Contacts Service
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'contacts-service/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploiement Contacts Service
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Infos deploiement
+        run: |
+          echo "Branche : ${{ github.ref_name }}"
+          echo "Date    : $(date '+%d/%m/%Y %H:%M:%S')"
+
+      - name: Deploiement contacts-service
+        run: |
+          cd contacts-service
+          docker-compose down
+          docker-compose up -d --build
+
+      - name: Attente demarrage
+        run: sleep 15
+
+      - name: Verification conteneurs
+        run: |
+          docker ps --filter "name=contacts" --format "table {{.Names}}\t{{.Status}}"
+          BACKEND=$(docker ps --filter "name=contacts-backend" --filter "status=running" -q)
+          DB=$(docker ps --filter "name=contacts-db" --filter "status=running" -q)
+          [ -z "$BACKEND" ] && echo "ERREUR backend !" && exit 1 || echo "Backend : OK"
+          [ -z "$DB" ]      && echo "ERREUR database !" && exit 1 || echo "Database: OK"
+          echo "Contacts service operationnel sur http://192.168.1.132:8081"
