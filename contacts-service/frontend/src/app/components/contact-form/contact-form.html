@@ -1,0 +1,54 @@
+<div class="contact-form">
+  <div class="form-card">
+    <h2>{{ isEdit ? 'Modifier le contact' : 'Nouveau contact' }}</h2>
+    <form (ngSubmit)="save()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nom *</label>
+          <input type="text" [(ngModel)]="contact.nom" name="nom" required placeholder="Nom"/>
+        </div>
+        <div class="form-group">
+          <label>Prénom *</label>
+          <input type="text" [(ngModel)]="contact.prenom" name="prenom" required placeholder="Prénom"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="contact.email" name="email" placeholder="email@exemple.com"/>
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="text" [(ngModel)]="contact.telephone" name="telephone" placeholder="+33 6 00 00 00 00"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Entreprise</label>
+          <input type="text" [(ngModel)]="contact.entreprise" name="entreprise" placeholder="Nom de l'entreprise"/>
+        </div>
+        <div class="form-group">
+          <label>Type *</label>
+          <select [(ngModel)]="contact.type" name="type" required>
+            <option value="CLIENT">Client</option>
+            <option value="FOURNISSEUR">Fournisseur</option>
+            <option value="PROSPECT">Prospect</option>
+            <option value="PARTENAIRE">Partenaire</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Adresse</label>
+        <input type="text" [(ngModel)]="contact.adresse" name="adresse" placeholder="Adresse complète"/>
+      </div>
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea [(ngModel)]="contact.notes" name="notes" rows="3" placeholder="Notes additionnelles..."></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Annuler</button>
+        <button type="submit" class="btn-save">{{ isEdit ? 'Mettre à jour' : 'Créer le contact' }}</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="contact-list">
+  <div class="header">
+    <h2>Contacts</h2>
+    <div class="filters">
+      <input type="text" placeholder="Rechercher..." [(ngModel)]="searchQuery" (input)="onSearch()" class="search-input"/>
+      <select [(ngModel)]="selectedType" (change)="onFilter()" class="filter-select">
+        <option value="">Tous les types</option>
+        <option value="CLIENT">Clients</option>
+        <option value="FOURNISSEUR">Fournisseurs</option>
+        <option value="PROSPECT">Prospects</option>
+        <option value="PARTENAIRE">Partenaires</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="stats">
+    <span class="stat">Total : {{ contacts.length }}</span>
+  </div>
+
+  <div class="contacts-grid">
+    <div class="contact-card" *ngFor="let contact of contacts">
+      <div class="card-header">
+        <div class="avatar">{{ contact.nom[0] }}{{ contact.prenom[0] }}</div>
+        <div class="card-info">
+          <h3>{{ contact.nom }} {{ contact.prenom }}</h3>
+          <span class="entreprise">{{ contact.entreprise || '—' }}</span>
+        </div>
+        <span class="badge" [class]="contact.type.toLowerCase()">{{ contact.type }}</span>
+      </div>
+      <div class="card-body">
+        <p *ngIf="contact.email"><span>Email :</span> {{ contact.email }}</p>
+        <p *ngIf="contact.telephone"><span>Tel :</span> {{ contact.telephone }}</p>
+      </div>
+      <div class="card-actions">
+        <button class="btn-edit" (click)="editContact(contact.id!)">Modifier</button>
+        <button class="btn-delete" (click)="deleteContact(contact.id!)">Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty" *ngIf="contacts.length === 0">
+    <p>Aucun contact trouvé.</p>
+    <a routerLink="/contacts/new" class="btn-primary">Créer un contact</a>
+  </div>
+</div>

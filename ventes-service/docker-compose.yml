@@ -1,0 +1,53 @@
+version: '3.8'
+services:
+  ventes-db:
+    image: mariadb:10.11
+    container_name: ventes-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: ventes_db
+      MYSQL_USER: ventes_user
+      MYSQL_PASSWORD: ventes_pass
+    ports:
+      - "3308:3306"
+    volumes:
+      - ventes-db-data:/var/lib/mysql
+    networks:
+      - ventes-network
+      - transfafrica-network
+
+  ventes-backend:
+    build: ./backend
+    container_name: ventes-backend
+    restart: always
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://ventes-db:3306/ventes_db
+      SPRING_DATASOURCE_USERNAME: ventes_user
+      SPRING_DATASOURCE_PASSWORD: ventes_pass
+    depends_on:
+      - ventes-db
+    networks:
+      - ventes-network
+      - transfafrica-network
+
+  ventes-frontend:
+    image: nginx:alpine
+    container_name: ventes-frontend
+    restart: always
+    ports:
+      - "4202:80"
+    networks:
+      - ventes-network
+
+volumes:
+  ventes-db-data:
+
+networks:
+  ventes-network:
+    driver: bridge
+  transfafrica-network:
+    external: true
+    name: contacts-service_contacts-network
