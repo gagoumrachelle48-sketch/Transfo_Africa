@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  stocks-db:
+    image: mariadb:10.11
+    container_name: stocks-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: stocks_db
+      MYSQL_USER: stocks_user
+      MYSQL_PASSWORD: stocks_pass
+    ports:
+      - "3309:3306"
+    volumes:
+      - stocks-db-data:/var/lib/mysql
+    networks:
+      - stocks-network
+
+  stocks-backend:
+    build: ./backend
+    container_name: stocks-backend
+    restart: always
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://stocks-db:3306/stocks_db
+      SPRING_DATASOURCE_USERNAME: stocks_user
+      SPRING_DATASOURCE_PASSWORD: stocks_pass
+    depends_on:
+      - stocks-db
+    networks:
+      - stocks-network
+
+  stocks-frontend:
+    build: ./frontend
+    container_name: stocks-frontend
+    restart: always
+    ports:
+      - "4203:80"
+    networks:
+      - stocks-network
+
+volumes:
+  stocks-db-data:
+
+networks:
+  stocks-network:
+    driver: bridge
