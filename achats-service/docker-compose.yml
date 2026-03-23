@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  achats-db:
+    image: mariadb:10.11
+    container_name: achats-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: achats_db
+      MYSQL_USER: achats_user
+      MYSQL_PASSWORD: achats_pass
+    ports:
+      - "3310:3306"
+    volumes:
+      - achats-db-data:/var/lib/mysql
+    networks:
+      - achats-network
+
+  achats-backend:
+    build: ./backend
+    container_name: achats-backend
+    restart: always
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://achats-db:3306/achats_db
+      SPRING_DATASOURCE_USERNAME: achats_user
+      SPRING_DATASOURCE_PASSWORD: achats_pass
+    depends_on:
+      - achats-db
+    networks:
+      - achats-network
+
+  achats-frontend:
+    build: ./frontend
+    container_name: achats-frontend
+    restart: always
+    ports:
+      - "4204:80"
+    networks:
+      - achats-network
+
+volumes:
+  achats-db-data:
+
+networks:
+  achats-network:
+    driver: bridge
