@@ -1,0 +1,29 @@
+.fournisseur-list {
+  padding: 2rem; max-width: 1200px; margin: 0 auto;
+  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;
+    h2 { color: #a855f7; font-size: 1.5rem; margin: 0; }
+    .actions { display: flex; gap: 1rem; }
+    .search-input { padding: 0.5rem 1rem; background: #1e293b; border: 1px solid #334155; border-radius: 8px; color: #e2e8f0; &:focus { outline: none; border-color: #7c3aed; } }
+    .btn-new { background: #059669; color: white; padding: 0.5rem 1.2rem; border-radius: 8px; text-decoration: none; }
+  }
+  .table-container { background: #1e293b; border-radius: 12px; overflow: hidden; border: 1px solid #334155;
+    table { width: 100%; border-collapse: collapse;
+      thead tr { background: #1e1b4b; }
+      th { padding: 0.8rem 1rem; text-align: left; color: #94a3b8; font-size: 0.8rem; }
+      td { padding: 0.8rem 1rem; border-top: 1px solid #334155; color: #e2e8f0; font-size: 0.875rem; }
+      tr:hover td { background: #263244; }
+    }
+    .nom { color: #a855f7; font-weight: 600; }
+    .statut { padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.75rem;
+      &.actif { background: #064e3b; color: #10b981; }
+      &.inactif { background: #1e293b; color: #64748b; border: 1px solid #334155; }
+      &.blackliste { background: #7f1d1d; color: #fca5a5; }
+    }
+    .actions { display: flex; gap: 0.5rem;
+      button { border: none; padding: 0.3rem 0.8rem; border-radius: 5px; cursor: pointer; font-size: 0.8rem; }
+      .btn-edit { background: #4c1d95; color: #c4b5fd; }
+      .btn-delete { background: #7f1d1d; color: #fca5a5; }
+    }
+    .empty { padding: 2rem; text-align: center; color: #64748b; a { color: #a855f7; } }
+  }
+}

@@ -1,0 +1,49 @@
+<div class="bc-form">
+  <div class="form-card">
+    <h2>Nouveau bon de commande</h2>
+    <form (ngSubmit)="save()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fournisseur</label>
+          <select [(ngModel)]="selectedFournisseurId" name="fournisseur">
+            <option [value]="undefined">-- Sélectionner --</option>
+            <option *ngFor="let f of fournisseurs" [value]="f.id">{{ f.nom }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Date de livraison prévue</label>
+          <input type="date" [(ngModel)]="bc.dateLivraisonPrevue" name="dateLivraison"/>
+        </div>
+      </div>
+
+      <div class="lignes-section">
+        <div class="lignes-header">
+          <h3>Articles commandés</h3>
+          <button type="button" class="btn-add" (click)="addLigne()">+ Ajouter</button>
+        </div>
+        <table class="lignes-table">
+          <thead><tr><th>Désignation</th><th>Qté</th><th>Prix unitaire</th><th>Total</th><th></th></tr></thead>
+          <tbody>
+            <tr *ngFor="let l of bc.lignes; let i = index">
+              <td><input type="text" [(ngModel)]="l.designation" [name]="'des'+i" placeholder="Article..."/></td>
+              <td><input type="number" [(ngModel)]="l.quantite" [name]="'qty'+i" (input)="calcTotal(l)" min="1"/></td>
+              <td><input type="number" [(ngModel)]="l.prixUnitaire" [name]="'pu'+i" (input)="calcTotal(l)" step="0.01"/></td>
+              <td class="total-cell">{{ (l.quantite * l.prixUnitaire) | number:'1.2-2' }} €</td>
+              <td><button type="button" class="btn-remove" (click)="removeLigne(i)">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="grand-total">Total : <strong>{{ total | number:'1.2-2' }} €</strong></div>
+      </div>
+
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea [(ngModel)]="bc.notes" name="notes" rows="2" placeholder="Notes..."></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Annuler</button>
+        <button type="submit" class="btn-save">Créer le bon de commande</button>
+      </div>
+    </form>
+  </div>
+</div>

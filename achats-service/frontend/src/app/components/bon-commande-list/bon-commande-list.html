@@ -1,0 +1,31 @@
+<div class="bc-list">
+  <div class="header">
+    <h2>Bons de commande</h2>
+    <a routerLink="/bons-commande/new" class="btn-new">+ Nouveau BC</a>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead><tr><th>Numéro</th><th>Fournisseur</th><th>Date</th><th>Livraison prévue</th><th>Montant</th><th>Statut</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let bc of bonsCommande">
+          <td class="numero">{{ bc.numero }}</td>
+          <td>{{ bc.fournisseur?.nom || '—' }}</td>
+          <td>{{ bc.dateCommande | date:'dd/MM/yyyy' }}</td>
+          <td>{{ bc.dateLivraisonPrevue | date:'dd/MM/yyyy' }}</td>
+          <td class="montant">{{ bc.montantTotal | number:'1.2-2' }} €</td>
+          <td>
+            <select [value]="bc.statut" (change)="updateStatut(bc.id!, $any($event.target).value)" class="statut-select">
+              <option value="BROUILLON">Brouillon</option>
+              <option value="ENVOYE">Envoyé</option>
+              <option value="CONFIRME">Confirmé</option>
+              <option value="RECEPTIONNE">Réceptionné</option>
+              <option value="ANNULE">Annulé</option>
+            </select>
+          </td>
+          <td><button class="btn-delete" (click)="delete(bc.id!)">Supprimer</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="empty" *ngIf="bonsCommande.length === 0"><p>Aucun bon de commande. <a routerLink="/bons-commande/new">Créer le premier</a></p></div>
+  </div>
+</div>

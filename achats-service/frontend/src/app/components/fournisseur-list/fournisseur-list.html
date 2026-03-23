@@ -1,0 +1,29 @@
+<div class="fournisseur-list">
+  <div class="header">
+    <h2>Fournisseurs</h2>
+    <div class="actions">
+      <input type="text" placeholder="Rechercher..." [(ngModel)]="searchQuery" (input)="onSearch()" class="search-input"/>
+      <a routerLink="/fournisseurs/new" class="btn-new">+ Nouveau</a>
+    </div>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead><tr><th>Nom</th><th>Contact</th><th>Email</th><th>Téléphone</th><th>Pays</th><th>Statut</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let f of fournisseurs">
+          <td class="nom">{{ f.nom }}</td>
+          <td>{{ f.contact || '—' }}</td>
+          <td>{{ f.email || '—' }}</td>
+          <td>{{ f.telephone || '—' }}</td>
+          <td>{{ f.pays || '—' }}</td>
+          <td><span class="statut" [class]="f.statut.toLowerCase()">{{ f.statut }}</span></td>
+          <td class="actions">
+            <button class="btn-edit" (click)="router.navigate(['/fournisseurs/edit', f.id])">Modifier</button>
+            <button class="btn-delete" (click)="delete(f.id!)">Supprimer</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="empty" *ngIf="fournisseurs.length === 0"><p>Aucun fournisseur. <a routerLink="/fournisseurs/new">Ajouter le premier</a></p></div>
+  </div>
+</div>
