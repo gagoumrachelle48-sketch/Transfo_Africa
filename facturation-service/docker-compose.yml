@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  facturation-db:
+    image: mariadb:10.11
+    container_name: facturation-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pass
+      MYSQL_DATABASE: facturation_db
+      MYSQL_USER: facturation_user
+      MYSQL_PASSWORD: facturation_pass
+    ports:
+      - "3311:3306"
+    volumes:
+      - facturation-db-data:/var/lib/mysql
+    networks:
+      - facturation-network
+
+  facturation-backend:
+    build: ./backend
+    container_name: facturation-backend
+    restart: always
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://facturation-db:3306/facturation_db
+      SPRING_DATASOURCE_USERNAME: facturation_user
+      SPRING_DATASOURCE_PASSWORD: facturation_pass
+    depends_on:
+      - facturation-db
+    networks:
+      - facturation-network
+
+  facturation-frontend:
+    build: ./frontend
+    container_name: facturation-frontend
+    restart: always
+    ports:
+      - "4205:80"
+    networks:
+      - facturation-network
+
+volumes:
+  facturation-db-data:
+
+networks:
+  facturation-network:
+    driver: bridge
