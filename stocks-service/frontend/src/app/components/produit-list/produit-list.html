@@ -1,0 +1,76 @@
+<div class="produit-list">
+  <div class="header">
+    <h2>Inventaire</h2>
+    <div class="actions">
+      <input type="text" placeholder="Rechercher..." [(ngModel)]="searchQuery" (input)="onSearch()" class="search-input"/>
+      <a routerLink="/produits/new" class="btn-new">+ Nouveau</a>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <span class="stat-num">{{ produits.length }}</span>
+      <span class="stat-label">Total produits</span>
+    </div>
+    <div class="stat-card alerte">
+      <span class="stat-num">{{ produits | stockFilter:'alerte' }}</span>
+      <span class="stat-label">En alerte</span>
+    </div>
+    <div class="stat-card rupture">
+      <span class="stat-num">{{ produits | stockFilter:'rupture' }}</span>
+      <span class="stat-label">En rupture</span>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr><th>Référence</th><th>Nom</th><th>Catégorie</th><th>Stock</th><th>Seuil</th><th>Prix vente</th><th>Statut</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of produits">
+          <td class="ref">{{ p.reference }}</td>
+          <td>{{ p.nom }}</td>
+          <td>{{ p.categorie || '—' }}</td>
+          <td><span class="stock-badge" [class]="stockClass(p)">{{ p.quantiteStock }} {{ p.unite }}</span></td>
+          <td>{{ p.seuilAlerte }}</td>
+          <td class="prix">{{ p.prixVente | number:'1.2-2' }} €</td>
+          <td><span class="statut" [class]="p.statut.toLowerCase()">{{ p.statut }}</span></td>
+          <td class="actions">
+            <button class="btn-mouvement" (click)="openMouvement(p)">Mouvement</button>
+            <button class="btn-edit" (click)="router.navigate(['/produits/edit', p.id])">Modifier</button>
+            <button class="btn-delete" (click)="delete(p.id!)">Suppr.</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="empty" *ngIf="produits.length === 0"><p>Aucun produit. <a routerLink="/produits/new">Ajouter le premier</a></p></div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="showMouvement" (click)="showMouvement=false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h3>Mouvement de stock — {{ selectedProduit?.nom }}</h3>
+    <p class="stock-actuel">Stock actuel : <strong>{{ selectedProduit?.quantiteStock }}</strong></p>
+    <div class="form-group">
+      <label>Type</label>
+      <select [(ngModel)]="mouvement.type">
+        <option value="ENTREE">Entrée</option>
+        <option value="SORTIE">Sortie</option>
+        <option value="AJUSTEMENT">Ajustement</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Quantité</label>
+      <input type="number" [(ngModel)]="mouvement.quantite" min="1"/>
+    </div>
+    <div class="form-group">
+      <label>Motif</label>
+      <input type="text" [(ngModel)]="mouvement.motif" placeholder="Raison du mouvement..."/>
+    </div>
+    <div class="modal-actions">
+      <button (click)="showMouvement=false" class="btn-cancel">Annuler</button>
+      <button (click)="saveMouvement()" class="btn-save">Enregistrer</button>
+    </div>
+  </div>
+</div>

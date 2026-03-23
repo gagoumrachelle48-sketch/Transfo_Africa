@@ -17,7 +17,9 @@ services:
       - stocks-network
 
   stocks-backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: stocks-backend
     restart: always
     ports:

@@ -1,0 +1,16 @@
+.navbar {
+  background: #1e1b4b; padding: 1rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  .navbar-brand { display: flex; align-items: center; gap: 0.5rem;
+    .logo { font-size: 1.5rem; }
+    .brand-name { color: #a855f7; font-weight: 700; font-size: 1.2rem; }
+    .module-name { color: #94a3b8; font-size: 1rem; }
+  }
+  .navbar-menu { display: flex; gap: 1rem; align-items: center;
+    a { color: #cbd5e1; text-decoration: none; padding: 0.4rem 1rem; border-radius: 6px; transition: all 0.2s;
+      &:hover, &.active { background: #7c3aed; color: white; }
+    }
+    .btn-new { background: #059669; color: white !important; }
+  }
+}

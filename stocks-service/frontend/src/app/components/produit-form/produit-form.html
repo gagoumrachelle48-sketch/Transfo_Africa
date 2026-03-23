@@ -1,0 +1,69 @@
+<div class="produit-form">
+  <div class="form-card">
+    <h2>{{ isEdit ? 'Modifier le produit' : 'Nouveau produit' }}</h2>
+    <form (ngSubmit)="save()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Référence *</label>
+          <input type="text" [(ngModel)]="produit.reference" name="reference" required placeholder="REF-001"/>
+        </div>
+        <div class="form-group">
+          <label>Nom *</label>
+          <input type="text" [(ngModel)]="produit.nom" name="nom" required placeholder="Nom du produit"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Catégorie</label>
+          <input type="text" [(ngModel)]="produit.categorie" name="categorie" placeholder="Ex: Informatique"/>
+        </div>
+        <div class="form-group">
+          <label>Fournisseur</label>
+          <input type="text" [(ngModel)]="produit.fournisseur" name="fournisseur" placeholder="Nom du fournisseur"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prix d'achat (€)</label>
+          <input type="number" [(ngModel)]="produit.prixAchat" name="prixAchat" step="0.01" placeholder="0.00"/>
+        </div>
+        <div class="form-group">
+          <label>Prix de vente (€)</label>
+          <input type="number" [(ngModel)]="produit.prixVente" name="prixVente" step="0.01" placeholder="0.00"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Quantité en stock *</label>
+          <input type="number" [(ngModel)]="produit.quantiteStock" name="quantiteStock" required min="0"/>
+        </div>
+        <div class="form-group">
+          <label>Seuil d'alerte *</label>
+          <input type="number" [(ngModel)]="produit.seuilAlerte" name="seuilAlerte" required min="0"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Unité</label>
+          <input type="text" [(ngModel)]="produit.unite" name="unite" placeholder="pièce, kg, litre..."/>
+        </div>
+        <div class="form-group">
+          <label>Statut</label>
+          <select [(ngModel)]="produit.statut" name="statut">
+            <option value="ACTIF">Actif</option>
+            <option value="INACTIF">Inactif</option>
+            <option value="DISCONTINUE">Discontinué</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea [(ngModel)]="produit.description" name="description" rows="2" placeholder="Description du produit..."></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Annuler</button>
+        <button type="submit" class="btn-save">{{ isEdit ? 'Mettre à jour' : 'Créer le produit' }}</button>
+      </div>
+    </form>
+  </div>
+</div>
