@@ -1,0 +1,21 @@
+.dashboard {
+  padding: 2rem; max-width: 1200px; margin: 0 auto;
+  h2 { color: #a855f7; font-size: 1.5rem; margin-bottom: 2rem; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 2rem;
+    .kpi-card { background: #1e293b; border-radius: 12px; padding: 1.5rem; text-align: center; border: 1px solid #334155;
+      .kpi-num { display: block; font-size: 1.6rem; font-weight: 700; margin-bottom: 0.5rem; }
+      .kpi-label { color: #64748b; font-size: 0.85rem; }
+      &.total { border-color: #7c3aed; .kpi-num { color: #a855f7; } }
+      &.paye { border-color: #059669; .kpi-num { color: #10b981; } }
+      &.attente { border-color: #d97706; .kpi-num { color: #f59e0b; } }
+      &.retard { border-color: #dc2626; .kpi-num { color: #ef4444; } }
+      &.brouillon { border-color: #475569; .kpi-num { color: #94a3b8; } }
+    }
+  }
+  .quick-actions { display: flex; gap: 1rem;
+    .action-btn { padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 500;
+      &.green { background: #059669; color: white; }
+      &.purple { background: #7c3aed; color: white; }
+    }
+  }
+}

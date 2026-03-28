@@ -1,0 +1,29 @@
+<div class="dashboard">
+  <h2>Tableau de bord — Facturation</h2>
+  <div class="kpi-grid">
+    <div class="kpi-card total">
+      <span class="kpi-num">{{ dashboard.total }}</span>
+      <span class="kpi-label">Total factures</span>
+    </div>
+    <div class="kpi-card paye">
+      <span class="kpi-num">{{ dashboard.totalPaye | number:'1.2-2' }} €</span>
+      <span class="kpi-label">Montant encaissé</span>
+    </div>
+    <div class="kpi-card attente">
+      <span class="kpi-num">{{ dashboard.totalEnAttente | number:'1.2-2' }} €</span>
+      <span class="kpi-label">En attente</span>
+    </div>
+    <div class="kpi-card retard">
+      <span class="kpi-num">{{ dashboard.enRetard }}</span>
+      <span class="kpi-label">En retard</span>
+    </div>
+    <div class="kpi-card brouillon">
+      <span class="kpi-num">{{ dashboard.brouillons }}</span>
+      <span class="kpi-label">Brouillons</span>
+    </div>
+  </div>
+  <div class="quick-actions">
+    <a routerLink="/factures/new" class="action-btn green">Nouvelle facture</a>
+    <a routerLink="/factures" class="action-btn purple">Voir toutes les factures</a>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+<div class="facture-form">
+  <div class="form-card">
+    <h2>Nouvelle facture</h2>
+    <form (ngSubmit)="save()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Type</label>
+          <select [(ngModel)]="facture.type" name="type">
+            <option value="FACTURE">Facture</option>
+            <option value="AVOIR">Avoir</option>
+            <option value="PROFORMA">Proforma</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Statut</label>
+          <select [(ngModel)]="facture.statut" name="statut">
+            <option value="BROUILLON">Brouillon</option>
+            <option value="ENVOYEE">Envoyée</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nom du client *</label>
+          <input type="text" [(ngModel)]="facture.clientNom" name="clientNom" required placeholder="Nom du client"/>
+        </div>
+        <div class="form-group">
+          <label>Email client</label>
+          <input type="email" [(ngModel)]="facture.clientEmail" name="clientEmail" placeholder="email@client.com"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date d'échéance</label>
+          <input type="date" [(ngModel)]="facture.dateEcheance" name="dateEcheance"/>
+        </div>
+        <div class="form-group">
+          <label>TVA (%)</label>
+          <input type="number" [(ngModel)]="facture.tauxTVA" name="tauxTVA" min="0" max="100"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Adresse client</label>
+        <input type="text" [(ngModel)]="facture.clientAdresse" name="clientAdresse" placeholder="Adresse de facturation"/>
+      </div>
+      <div class="form-group">
+        <label>Référence commande</label>
+        <input type="text" [(ngModel)]="facture.referenceCommande" name="referenceCommande" placeholder="CMD-XXXXXXXX"/>
+      </div>
+
+      <div class="lignes-section">
+        <div class="lignes-header">
+          <h3>Lignes de facturation</h3>
+          <button type="button" class="btn-add" (click)="addLigne()">+ Ajouter</button>
+        </div>
+        <table class="lignes-table">
+          <thead><tr><th>Désignation</th><th>Qté</th><th>Prix unitaire HT</th><th>Total HT</th><th></th></tr></thead>
+          <tbody>
+            <tr *ngFor="let l of facture.lignes; let i = index">
+              <td><input type="text" [(ngModel)]="l.designation" [name]="'des'+i" placeholder="Service / Produit..."/></td>
+              <td><input type="number" [(ngModel)]="l.quantite" [name]="'qty'+i" (input)="calcLigne(l)" min="1"/></td>
+              <td><input type="number" [(ngModel)]="l.prixUnitaire" [name]="'pu'+i" (input)="calcLigne(l)" step="0.01"/></td>
+              <td class="total-cell">{{ (l.quantite * l.prixUnitaire) | number:'1.2-2' }} €</td>
+              <td><button type="button" class="btn-remove" (click)="removeLigne(i)">✕</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="totaux">
+          <div class="totaux-row"><span>Total HT</span><strong>{{ totalHT | number:'1.2-2' }} €</strong></div>
+          <div class="totaux-row"><span>TVA ({{ facture.tauxTVA }}%)</span><strong>{{ totalTVA | number:'1.2-2' }} €</strong></div>
+          <div class="totaux-row ttc"><span>Total TTC</span><strong>{{ totalTTC | number:'1.2-2' }} €</strong></div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea [(ngModel)]="facture.notes" name="notes" rows="2" placeholder="Conditions de paiement, mentions légales..."></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Annuler</button>
+        <button type="submit" class="btn-save">Créer la facture</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="facture-list">
+  <div class="header">
+    <h2>Factures</h2>
+    <div class="actions">
+      <input type="text" placeholder="Rechercher..." [(ngModel)]="searchQuery" (input)="onSearch()" class="search-input"/>
+      <a routerLink="/factures/new" class="btn-new">+ Nouvelle</a>
+    </div>
+  </div>
+  <div class="table-container">
+    <table>
+      <thead><tr><th>Numéro</th><th>Client</th><th>Type</th><th>Date</th><th>Échéance</th><th>HT</th><th>TTC</th><th>Statut</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let f of factures">
+          <td class="numero">{{ f.numero }}</td>
+          <td>{{ f.clientNom }}</td>
+          <td><span class="type-badge" [class]="f.type.toLowerCase()">{{ f.type }}</span></td>
+          <td>{{ f.dateFacture | date:'dd/MM/yyyy' }}</td>
+          <td>{{ f.dateEcheance | date:'dd/MM/yyyy' }}</td>
+          <td>{{ f.montantHT | number:'1.2-2' }} €</td>
+          <td class="ttc">{{ f.montantTTC | number:'1.2-2' }} €</td>
+          <td>
+            <select [value]="f.statut" (change)="updateStatut(f.id!, $any($event.target).value)" class="statut-select" [class]="statutClass(f.statut)">
+              <option value="BROUILLON">Brouillon</option>
+              <option value="ENVOYEE">Envoyée</option>
+              <option value="PAYEE">Payée</option>
+              <option value="EN_RETARD">En retard</option>
+              <option value="ANNULEE">Annulée</option>
+            </select>
+          </td>
+          <td><button class="btn-delete" (click)="delete(f.id!)">Suppr.</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="empty" *ngIf="factures.length === 0"><p>Aucune facture. <a routerLink="/factures/new">Créer la première</a></p></div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  portail:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: portail:latest
+    container_name: portail
+    restart: always
+    ports:
+      - "4200:80"
+    networks:
+      - transfo-network
+
+networks:
+  transfo-network:
+    external: true

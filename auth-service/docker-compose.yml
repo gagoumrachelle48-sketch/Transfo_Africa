@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  auth-db:
+    image: mariadb:10.11
+    container_name: auth-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: transfo_auth
+    ports:
+      - "3312:3306"
+    volumes:
+      - auth-db-data:/var/lib/mysql
+    networks:
+      - transfo-network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: auth-service:latest
+    container_name: auth-service
+    restart: always
+    ports:
+      - "8090:8090"
+    environment:
+      DB_HOST: auth-db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      JWT_SECRET: TransfoAfricaERP2026SecretKeyMustBeAtLeast256BitsLongForHS256Algorithm
+      JWT_EXPIRATION: 86400000
+      JWT_REFRESH_EXPIRATION: 604800000
+      CORS_ORIGINS: http://192.168.1.132:4200,http://localhost:4200,http://192.168.1.132:4201,http://192.168.1.132:4202,http://192.168.1.132:4203,http://192.168.1.132:4204,http://192.168.1.132:4205
+    depends_on:
+      auth-db:
+        condition: service_healthy
+    networks:
+      - transfo-network
+
+volumes:
+  auth-db-data:
+
+networks:
+  transfo-network:
+    external: true
