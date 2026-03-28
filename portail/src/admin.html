@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Transfo Africa</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; padding: 24px; }
+
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .header h1 { font-size: 24px; color: #1a1a2e; }
+        .btn-primary {
+            background: #0f3460; color: #fff; border: none; padding: 12px 24px;
+            border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;
+        }
+        .btn-primary:hover { background: #1a5276; }
+        .btn-danger { background: #e74c3c; }
+        .btn-danger:hover { background: #c0392b; }
+        .btn-sm { padding: 8px 16px; font-size: 13px; border-radius: 8px; }
+
+        /* TABLEAU */
+        .card {
+            background: #fff; border-radius: 12px; padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px 16px; color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #f0f2f5; }
+        td { padding: 14px 16px; border-bottom: 1px solid #f0f2f5; font-size: 14px; color: #333; }
+        tr:hover { background: #f8f9fa; }
+        .badge {
+            display: inline-block; padding: 4px 10px; border-radius: 20px;
+            font-size: 11px; font-weight: 600;
+        }
+        .badge-admin { background: #ffeaa7; color: #d68910; }
+        .badge-user { background: #dfe6e9; color: #636e72; }
+        .badge-manager { background: #a29bfe; color: #5f3dc4; }
+        .badge-comptable { background: #55efc4; color: #00b894; }
+        .badge-commercial { background: #fab1a0; color: #e17055; }
+        .badge-active { background: #d4edda; color: #155724; }
+        .badge-inactive { background: #f8d7da; color: #721c24; }
+
+        .empty-state { text-align: center; padding: 40px; color: #888; }
+
+        /* MODALE */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: #fff; border-radius: 16px; padding: 32px; width: 480px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .modal h2 { margin-bottom: 24px; color: #1a1a2e; font-size: 20px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 13px; color: #555; font-weight: 500; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 12px 14px; border: 2px solid #e0e0e0; border-radius: 10px;
+            font-size: 14px; outline: none;
+        }
+        .form-group input:focus, .form-group select:focus { border-color: #0f3460; }
+        .form-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; }
+        .btn-cancel {
+            background: #eee; color: #333; border: none; padding: 12px 24px;
+            border-radius: 10px; font-size: 14px; cursor: pointer;
+        }
+        .alert {
+            padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; font-size: 14px; display: none;
+        }
+        .alert-success { background: #d4edda; color: #155724; }
+        .alert-error { background: #f8d7da; color: #721c24; }
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-mini {
+            background: #fff; border-radius: 10px; padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center;
+        }
+        .stat-mini .num { font-size: 28px; font-weight: 700; color: #0f3460; }
+        .stat-mini .lbl { font-size: 12px; color: #888; margin-top: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="alert alert-success" id="alertSuccess"></div>
+<div class="alert alert-error" id="alertError"></div>
+
+<div class="header">
+    <h1>Gestion des utilisateurs</h1>
+    <button class="btn-primary" onclick="openModal()">+ Nouvel utilisateur</button>
+</div>
+
+<div class="stats" id="statsBar">
+    <div class="stat-mini"><div class="num" id="statTotal">0</div><div class="lbl">Total</div></div>
+    <div class="stat-mini"><div class="num" id="statAdmins">0</div><div class="lbl">Admins</div></div>
+    <div class="stat-mini"><div class="num" id="statActifs">0</div><div class="lbl">Actifs</div></div>
+    <div class="stat-mini"><div class="num" id="statRoles">0</div><div class="lbl">Roles</div></div>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Utilisateur</th>
+                <th>Email</th>
+                <th>Nom complet</th>
+                <th>Roles</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody id="usersTable">
+            <tr><td colspan="5" class="empty-state">Chargement...</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- MODALE CREATION -->
+<div class="modal-overlay" id="createModal">
+    <div class="modal">
+        <h2>Creer un utilisateur</h2>
+        <div class="form-group">
+            <label>Nom d'utilisateur</label>
+            <input type="text" id="newUsername" placeholder="ex: jean.dupont">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="newEmail" placeholder="ex: jean@transfo-africa.com">
+        </div>
+        <div class="form-group">
+            <label>Nom complet</label>
+            <input type="text" id="newFullName" placeholder="ex: Jean Dupont">
+        </div>
+        <div class="form-group">
+            <label>Mot de passe</label>
+            <input type="password" id="newPassword" placeholder="Minimum 6 caracteres">
+        </div>
+        <div class="form-group">
+            <label>Role</label>
+            <select id="newRole">
+                <option value="ROLE_USER">Utilisateur</option>
+                <option value="ROLE_MANAGER">Manager</option>
+                <option value="ROLE_COMPTABLE">Comptable</option>
+                <option value="ROLE_COMMERCIAL">Commercial</option>
+                <option value="ROLE_ADMIN">Administrateur</option>
+            </select>
+        </div>
+        <div class="form-actions">
+            <button class="btn-cancel" onclick="closeModal()">Annuler</button>
+            <button class="btn-primary" onclick="createUser()">Creer</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const AUTH_URL = 'http://192.168.1.132:8000/api/auth';
+
+    function getToken() {
+        try { return parent.localStorage.getItem('token'); }
+        catch(e) { return localStorage.getItem('token'); }
+    }
+
+    async function loadUsers() {
+        const token = getToken();
+        if (!token) {
+            document.getElementById('usersTable').innerHTML =
+                '<tr><td colspan="5" class="empty-state">Non authentifie. Connectez-vous via le portail.</td></tr>';
+            return;
+        }
+
+        try {
+            const res = await fetch(AUTH_URL + '/users', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+
+            if (!res.ok) {
+                document.getElementById('usersTable').innerHTML =
+                    '<tr><td colspan="5" class="empty-state">Acces refuse. Seuls les admins peuvent voir cette page.</td></tr>';
+                return;
+            }
+
+            const users = await res.json();
+            renderUsers(users);
+            updateStats(users);
+        } catch(e) {
+            document.getElementById('usersTable').innerHTML =
+                '<tr><td colspan="5" class="empty-state">Erreur de connexion au serveur.</td></tr>';
+        }
+    }
+
+    function renderUsers(users) {
+        if (users.length === 0) {
+            document.getElementById('usersTable').innerHTML =
+                '<tr><td colspan="5" class="empty-state">Aucun utilisateur trouve.</td></tr>';
+            return;
+        }
+
+        let html = '';
+        users.forEach(u => {
+            const rolesHtml = (u.roles || []).map(r => {
+                const name = r.replace('ROLE_', '').toLowerCase();
+                return '<span class="badge badge-' + name + '">' + name + '</span> ';
+            }).join('');
+
+            const statusHtml = u.isActive
+                ? '<span class="badge badge-active">Actif</span>'
+                : '<span class="badge badge-inactive">Inactif</span>';
+
+            html += '<tr>' +
+                '<td><strong>' + u.username + '</strong></td>' +
+                '<td>' + u.email + '</td>' +
+                '<td>' + (u.fullName || '-') + '</td>' +
+                '<td>' + rolesHtml + '</td>' +
+                '<td>' + statusHtml + '</td>' +
+                '</tr>';
+        });
+
+        document.getElementById('usersTable').innerHTML = html;
+    }
+
+    function updateStats(users) {
+        document.getElementById('statTotal').textContent = users.length;
+        document.getElementById('statAdmins').textContent =
+            users.filter(u => u.roles && u.roles.includes('ROLE_ADMIN')).length;
+        document.getElementById('statActifs').textContent =
+            users.filter(u => u.isActive).length;
+
+        const allRoles = new Set();
+        users.forEach(u => (u.roles || []).forEach(r => allRoles.add(r)));
+        document.getElementById('statRoles').textContent = allRoles.size;
+    }
+
+    function openModal() { document.getElementById('createModal').classList.add('active'); }
+    function closeModal() { document.getElementById('createModal').classList.remove('active'); }
+
+    async function createUser() {
+        const token = getToken();
+        const data = {
+            username: document.getElementById('newUsername').value,
+            email: document.getElementById('newEmail').value,
+            fullName: document.getElementById('newFullName').value,
+            password: document.getElementById('newPassword').value,
+            roles: [document.getElementById('newRole').value]
+        };
+
+        if (!data.username || !data.email || !data.password || !data.fullName) {
+            showAlert('error', 'Veuillez remplir tous les champs.');
+            return;
+        }
+
+        try {
+            const res = await fetch(AUTH_URL + '/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (res.ok) {
+                closeModal();
+                showAlert('success', 'Utilisateur ' + data.username + ' cree avec succes !');
+                document.getElementById('newUsername').value = '';
+                document.getElementById('newEmail').value = '';
+                document.getElementById('newFullName').value = '';
+                document.getElementById('newPassword').value = '';
+                loadUsers();
+            } else {
+                const err = await res.json();
+                showAlert('error', err.error || 'Erreur lors de la creation.');
+            }
+        } catch(e) {
+            showAlert('error', 'Erreur de connexion au serveur.');
+        }
+    }
+
+    function showAlert(type, msg) {
+        const el = document.getElementById(type === 'success' ? 'alertSuccess' : 'alertError');
+        el.textContent = msg;
+        el.style.display = 'block';
+        setTimeout(() => { el.style.display = 'none'; }, 4000);
+    }
+
+    loadUsers();
+</script>
+</body>
+</html>
