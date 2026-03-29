@@ -10,7 +10,6 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class DevisController {
-    private final DevisController devisController;
     private final DevisService devisService;
     @GetMapping
     public ResponseEntity<List<Devis>> getAll() { return ResponseEntity.ok(devisService.findAll()); }
