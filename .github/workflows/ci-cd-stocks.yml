@@ -1,0 +1,36 @@
+name: CI/CD Stocks Service
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'stocks-service/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploiement Stocks Service
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Infos deploiement
+        run: |
+          echo "Branche : ${{ github.ref_name }}"
+          echo "Date    : $(date '+%d/%m/%Y %H:%M:%S')"
+
+      - name: Deploiement stocks-service
+        run: |
+          cd stocks-service
+          docker-compose down
+          docker-compose up -d --build
+
+      - name: Attente demarrage
+        run: sleep 15
+
+      - name: Verification conteneurs
+        run: |
+          BACKEND=$(docker ps --filter "name=stocks-backend" --filter "status=running" -q)
+          [ -z "$BACKEND" ] && echo "ERREUR backend !" && exit 1 || echo "Backend : OK"
+          echo "Stocks service operationnel sur http://192.168.1.132:8083"

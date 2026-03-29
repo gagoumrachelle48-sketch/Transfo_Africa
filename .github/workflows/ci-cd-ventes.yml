@@ -1,0 +1,48 @@
+name: CI/CD Ventes Service
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'ventes-service/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploiement Ventes Service
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Infos deploiement
+        run: |
+          echo "Branche : ${{ github.ref_name }}"
+          echo "Date    : $(date '+%d/%m/%Y %H:%M:%S')"
+
+      - name: Build backend ventes
+        run: |
+          cd ventes-service/backend
+          docker build -t ventes-service_ventes-backend:latest .
+
+      - name: Deploiement ventes-backend
+        run: |
+          docker rm -f ventes-backend || true
+          docker run -d --name ventes-backend --restart always \
+            -p 8082:8082 --network transfo-network \
+            -e SPRING_DATASOURCE_URL=jdbc:mariadb://ventes-db:3306/ventes_db \
+            -e SPRING_DATASOURCE_USERNAME=ventes_user \
+            -e SPRING_DATASOURCE_PASSWORD=ventes_pass \
+            -e SPRING_MAIN_ALLOW-CIRCULAR-REFERENCES=true \
+            ventes-service_ventes-backend:latest
+
+      - name: Attente demarrage
+        run: sleep 25
+
+      - name: Verification conteneurs
+        run: |
+          BACKEND=$(docker ps --filter "name=ventes-backend" --filter "status=running" -q)
+          [ -z "$BACKEND" ] && echo "ERREUR backend !" && exit 1 || echo "Backend : OK"
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8082/api/commandes)
+          [ "$HTTP_CODE" != "200" ] && echo "ERREUR API ! HTTP=$HTTP_CODE" && exit 1 || echo "API : OK (HTTP 200)"
+          echo "Ventes service operationnel sur http://192.168.1.132:8082"

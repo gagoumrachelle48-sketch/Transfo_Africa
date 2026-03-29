@@ -1,0 +1,47 @@
+name: CI/CD Facturation Service
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'facturation-service/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploiement Facturation Service
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Infos deploiement
+        run: |
+          echo "Branche : ${{ github.ref_name }}"
+          echo "Date    : $(date '+%d/%m/%Y %H:%M:%S')"
+
+      - name: Build backend facturation
+        run: |
+          cd facturation-service/backend
+          docker build -t facturation-backend:latest .
+
+      - name: Deploiement facturation-backend
+        run: |
+          docker rm -f facturation-backend || true
+          docker run -d --name facturation-backend --restart always \
+            -p 8085:8085 --network transfo-network \
+            -e SPRING_DATASOURCE_URL=jdbc:mariadb://facturation-db:3306/facturation_db \
+            -e SPRING_DATASOURCE_USERNAME=facturation_user \
+            -e SPRING_DATASOURCE_PASSWORD=facturation_pass \
+            facturation-backend:latest
+
+      - name: Attente demarrage
+        run: sleep 25
+
+      - name: Verification conteneurs
+        run: |
+          BACKEND=$(docker ps --filter "name=facturation-backend" --filter "status=running" -q)
+          [ -z "$BACKEND" ] && echo "ERREUR backend !" && exit 1 || echo "Backend : OK"
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8085/api/factures)
+          [ "$HTTP_CODE" != "200" ] && echo "ERREUR API ! HTTP=$HTTP_CODE" && exit 1 || echo "API : OK (HTTP 200)"
+          echo "Facturation service operationnel sur http://192.168.1.132:8085"
