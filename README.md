@@ -1,7 +1,3 @@
-
-#  Transfo Africa — ERP Modulaire pour PME
-  Projet de conception SI — Architecture, Data & Cybersécurité
-
 <p align="center">
   <img src="docs/banner.png" width="100%" alt="Transfo Africa Banner">
 </p>
