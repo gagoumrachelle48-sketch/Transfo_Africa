@@ -1,118 +1,102 @@
-#  Transfo Africa — Système d’Information Digital pour PME
+#  Transfo Africa — ERP Modulaire pour PME
+>  Projet de conception SI — Architecture, Data & Cybersécurité
 
-##  Contexte
+##  Objectif du projet
+Conception et mise en œuvre d’un **Système d’Information digital** pour PME, basé sur une architecture **microservices sécurisée**, visant à :
 
-Transfo Africa est un projet de conception et de mise en œuvre d’un Système d’Information digital destiné aux PME, visant à centraliser, automatiser et sécuriser les processus métiers.
-
-Le projet répond à des enjeux clés :
-- Structuration des données
-- Automatisation des opérations
-- Amélioration de la traçabilité
-- Pilotage décisionnel
-- Sécurisation des accès et des flux
-
----
-
-##  Objectifs
-
-- Concevoir une architecture SI modulaire et scalable
-- Digitaliser les processus métiers (ventes, achats, stock, finance)
-- Assurer la cohérence et l’intégrité des données
-- Mettre en place des APIs sécurisées
-- Faciliter le pilotage via des indicateurs métier
+- Centraliser les données métiers  
+- Automatiser les processus (ventes, achats, stock)  
+- Améliorer la traçabilité  
+- Piloter l’activité via des indicateurs (KPI)  
 
 ---
 
 ##  Rôle — Cheffe de Projet SI
 
-Dans ce projet, j’ai assuré un rôle transverse couvrant :
+Pilotage transverse du projet de bout en bout :
 
-- Pilotage global du projet
-- Analyse des besoins métiers
-- Modélisation des données
-- Conception de l’architecture SI
-- Coordination technique (backend / frontend)
-- Mise en place des bonnes pratiques de sécurité
-- Structuration des services et des flux
+- Cadrage & analyse des besoins métiers  
+- Modélisation des données  
+- Conception de l’architecture SI  
+- Coordination technique (backend / frontend)  
+- Mise en place des pratiques de sécurité  
+- Structuration des flux et des services  
 
 ---
 
 ##  Architecture du Système
 
-Architecture basée sur des **microservices indépendants et communicants** :
+Architecture basée sur des **microservices indépendants** :
 
-- `api-gateway` : point d’entrée sécurisé du système
-- `auth-service` : gestion des authentifications (JWT)
-- `contacts-service` : gestion clients & fournisseurs
-- `ventes-service` : gestion commandes & devis
-- `achats-service` : gestion fournisseurs & achats
-- `stocks-service` : gestion des stocks & mouvements
-- `facturation-service` : génération des factures & paiements
-- `portal` : interface utilisateur (Angular)
+- 🔐 `auth-service` → Authentification (JWT)  
+- 🌐 `api-gateway` → Point d’entrée sécurisé  
+- 👥 `contacts-service` → Clients & fournisseurs  
+- 🛒 `ventes-service` → Commandes & devis  
+- 📦 `stocks-service` → Gestion des stocks  
+- 🧾 `facturation-service` → Facturation & paiements  
+- 🖥️ `portal` → Interface utilisateur (Angular)  
 
 ---
 
-##  Modélisation des Données
+##  Data & Modélisation
 
-- Conception logique et physique des données
-- Structuration par service (approche découplée)
-- Gestion des relations entre entités métiers
-- Intégrité des données garantie
+- Modélisation logique et physique des données  
+- Structuration par domaine métier (microservices)  
+- Relations optimisées entre entités  
+- Intégrité et cohérence des données garanties  
 
 ---
 
 ##  Sécurité
 
-- Authentification via JWT
-- Gestion des accès par service
-- Sécurisation des APIs
-- Isolation des microservices
-- Préparation à l’audit des actions
+- Authentification sécurisée via JWT  
+- Sécurisation des API  
+- Isolation des services  
+- Préparation à l’audit des actions  
 
 ---
 
 ##  Pilotage & Vision SI
 
 Le système permet :
-- Une centralisation des données métiers
-- Une meilleure visibilité sur les opérations
-- Une base exploitable pour des KPI décisionnels
-- Une gouvernance SI structurée
+
+- Une centralisation des données  
+- Une meilleure visibilité opérationnelle  
+- Une base exploitable pour KPI décisionnels  
+- Une gouvernance SI structurée  
 
 ---
 
 ##  Stack Technique
 
-- **Frontend** : Angular
-- **Backend** : Spring Boot (microservices)
-- **Base de données** : MariaDB
-- **Architecture** : Microservices
-- **DevOps** : Docker, CI/CD (GitHub Actions)
+- **Frontend** : Angular  
+- **Backend** : Spring Boot (microservices)  
+- **Base de données** : MariaDB  
+- **Architecture** : Microservices  
+- **DevOps** : Docker • CI/CD (GitHub Actions)  
 
 ---
 
-##  Valeur Ajoutée
+## Valeur Ajoutée
 
-Ce projet démontre :
-
-- Une approche globale de conception SI
-- Une capacité de pilotage de projet technique
-- Une maîtrise des architectures modernes (microservices)
-- Une intégration des enjeux sécurité & gouvernance
-- Une vision orientée performance et décision
+- Vision globale SI + métier  
+- Architecture scalable et modulaire  
+- Intégration sécurité & gouvernance  
+- Approche orientée performance et décision  
 
 ---
 
 ##  Positionnement
 
-Projet réalisé dans une logique de **pilotage SI & transformation digitale**, combinant :
-- Architecture des systèmes d’information
-- Data & structuration des données
-- Cybersécurité
-- Gouvernance IT
+Projet réalisé dans une logique de :
+
+- Architecture des Systèmes d’Information  
+- Data & structuration des données  
+- Cybersécurité  
+- Gouvernance IT  
 
 ---
 
-## 🔗 Accès
+##  Accès
 
-📂 Repository : https://github.com/gagoumrachelle48-sketch/transfo-africa-digital-system
+ https://github.com/gagoumrachelle48-sketch/transfo-africa-digital-system
