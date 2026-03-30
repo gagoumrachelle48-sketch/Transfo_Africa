@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/banner.png" width="100%">
+   <img src="docs/banner.png" width="100%" style="border-radius:10px;">
 </p>
 
 <h1 align="center">Transfo Africa — ERP Modulaire pour PME</h1>
