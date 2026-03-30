@@ -1,14 +1,11 @@
-<p align="center" style="margin-top: 0; margin-bottom: 10px;">
-  <img src="docs/banner.png" style="max-width: 900px; width: 100%; border-radius: 10px;">
+<p align="center">
+  <img src="docs/banner.png" width="850">
 </p>
-
-<h2 align="center" style="margin-top: 5px;">
-Transfo Africa — ERP Modulaire pour PME
-</h2>
-
-<p align="center" style="margin-top: -5px;">
+<h2 align="center">Transfo Africa — ERP Modulaire pour PME</h2>
+<p align="center">Architecture SI • Data • Cybersécurité • Microservices</p>
 Architecture SI • Data • Cybersécurité • Microservices
 </p>
+---
 ##  Objectif du projet
 Conception et mise en œuvre d’un **Système d’Information digital** pour PME, basé sur une architecture **microservices sécurisée, visant à :
 
