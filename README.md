@@ -1,6 +1,7 @@
+#  Transfo Africa — ERP Modulaire pour PME
 
-  Objectif du projet
-Conception et mise en œuvre d’un Système d’Information digital pour PME, basé sur une architecture  microservices sécurisée, visant à :
+##  Objectif du projet
+Conception et mise en œuvre d’un **Système d’Information digital** pour PME, basé sur une architecture **microservices sécurisée**, visant à :
 
 - Centraliser les données métiers  
 - Automatiser les processus (ventes, achats, stock)  
@@ -54,7 +55,7 @@ Architecture basée sur des **microservices indépendants** :
 
 ---
 
-##  Pilotage & Vision SI
+## Pilotage & Vision SI
 
 Le système permet :
 
@@ -75,7 +76,7 @@ Le système permet :
 
 ---
 
-## Valeur Ajoutée
+##  Valeur Ajoutée
 
 - Vision globale SI + métier  
 - Architecture scalable et modulaire  
@@ -95,6 +96,6 @@ Projet réalisé dans une logique de :
 
 ---
 
-##  Accès
+## 🔗 Accès
 
- https://github.com/gagoumrachelle48-sketch/transfo-africa-digital-system
+👉 https://github.com/gagoumrachelle48-sketch/transfo-africa-digital-system
