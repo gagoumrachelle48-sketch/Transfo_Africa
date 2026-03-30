@@ -1,4 +1,6 @@
-![Transfo Africa Banner](docs/banner.png)
+<p align="center">
+  <img src="docs/banner.png" alt="Transfo Africa Banner">
+</p>
 #  Transfo Africa — ERP Modulaire pour PME
 >  Projet de conception SI — Architecture, Data & Cybersécurité
 
