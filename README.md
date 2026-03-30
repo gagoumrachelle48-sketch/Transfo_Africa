@@ -5,9 +5,11 @@
 <p align="center">Architecture SI • Data • Cybersécurité • Microservices</p>
 Architecture SI • Data • Cybersécurité • Microservices
 </p>
----
-##  Objectif du projet
-Conception et mise en œuvre d’un **Système d’Information digital** pour PME, basé sur une architecture **microservices sécurisée, visant à :
+<p align="center">
+  <img src="docs/banner.png" width="800">
+</p>
+  Objectif du projet
+Conception et mise en œuvre d’un Système d’Information digital pour PME, basé sur une architecture  microservices sécurisée, visant à :
 
 - Centraliser les données métiers  
 - Automatiser les processus (ventes, achats, stock)  
