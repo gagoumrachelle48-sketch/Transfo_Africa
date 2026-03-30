@@ -1,10 +1,16 @@
 
 #  Transfo Africa — ERP Modulaire pour PME
->  Projet de conception SI — Architecture, Data & Cybersécurité
+  Projet de conception SI — Architecture, Data & Cybersécurité
+
 <p align="center">
-  <b>ERP modulaire • Microservices • API sécurisées • Data & KPI • Cybersécurité</b>
+  <img src="docs/banner.png" width="100%" alt="Transfo Africa Banner">
 </p>
 
+<h1 align="center">Transfo Africa — ERP Modulaire pour PME</h1>
+
+<p align="center">
+  Architecture SI • Data • Cybersécurité • Microservices
+</p>
 ##  Objectif du projet
 Conception et mise en œuvre d’un **Système d’Information digital** pour PME, basé sur une architecture **microservices sécurisée**, visant à :
 
