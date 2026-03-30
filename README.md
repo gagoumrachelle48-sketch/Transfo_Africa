@@ -1,8 +1,4 @@
 <p align="center">
-  <img src="docs/banner.png" width="850">
-</p>
-<h2 align="center">Transfo Africa — ERP Modulaire pour PME</h2>
-<p align="center">Architecture SI • Data • Cybersécurité • Microservices</p>
 Architecture SI • Data • Cybersécurité • Microservices
 </p>
 <p align="center">
